@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X. O que está acontecendo</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="{% static 'images/Logo_twitter.png' %}" alt="Logo" class="logo">
+        </div>
+        <div class="right">
+            <h1>Acontecendo agora</h1>
+            <h2>Inscreva-se hoje</h2>
+            <a href="#" class="register" id="open-btn">Criar conta</a>             
+            <p class="if">Ja tem uma conta?</p>
+            <a href="#" class="login" id="open-login">Entrar</a>
+        </div>
+    </div>
+</body>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <span class="close" id="close-register">&times;</span>
+        <img src="{% static 'images/Logo_twitter.png' %}" alt="logo_modal" id="modal-logo" class="logo_modal">
+        <h2>Criar sua conta</h2>
+
+        <input type="text" placeholder="Nome">
+        <input type="email" placeholder="Email">
+        <input type="text" placeholder="Senha" >
+
+        <button class="Avancar">Avançar</button>
+    </div>
+</div>
+
+<div class="modal-login" id="modal-login">
+    <div class="modal-content-login">
+        <span class="close" id="close-login">&times;</span>
+        <img src="{% static 'images/Logo_twitter.png' %}" alt="logo_modal" id="modal-logo" class="logo_modal">
+        <h2>Entrar no X</h2>
+
+        <input type="text" placeholder="E-mail">
+        <input type="text" placeholder="Senha">
+
+        <button class="Avancar">Avançar</button>
+        <p class="Not">Não tem uma conta? <a href="#" id="go-register">Inscreva-se</a></p>
+    </div>
+</div>
+</html>
+<script src="{% static 'script.js' %}"></script>
