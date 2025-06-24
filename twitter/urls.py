@@ -17,9 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from .views import auth_view
+from .views import auth_view, feed_view, verificar_usuario
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', auth_view, name='auth'),
+    path('feed/', feed_view, name='feed'),
+    path('verificar_usuario/', verificar_usuario, name='verificar_usuario'),
 ]

@@ -17,39 +17,61 @@
         <div class="right">
             <h1>Acontecendo agora</h1>
             <h2>Inscreva-se hoje</h2>
-            <a href="#" class="register" id="open-btn">Criar conta</a>             
+            <a href="#" class="register" id="open-btn">Criar conta</a>
             <p class="if">Ja tem uma conta?</p>
             <a href="#" class="login" id="open-login">Entrar</a>
         </div>
     </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close" id="close-register">&times;</span>
+            <img src="{% static 'images/Logo_twitter.png' %}" alt="logo_modal" id="modal-logo" class="logo_modal">
+            <h2>Criar sua conta</h2>
+
+            <form method="POST" id="form-register">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="register">
+                <input type="text" name="username" id="registerUsername" placeholder="Nome de usuário" required>
+                <input type="email" name="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" name="password" id="registerPassword" placeholder="Senha" required>
+
+                <p class="mensagem" id="registerMensagem"></p>
+
+                <button type="submit" class="Avancar" id="registerSubmit" disabled>Avançar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-login" id="modal-login">
+        <div class="modal-content-login">
+            <span class="close" id="close-login">&times;</span>
+            <img src="{% static 'images/Logo_twitter.png' %}" alt="logo_modal" id="modal-logo" class="logo_modal">
+            <h2>Entrar no X</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="login">
+                <input type="text" name="username" placeholder="Nome de usuário">
+                <input type="password" name="password" placeholder="Senha">
+
+                {% if abrir_login and mensagem %}
+                <p class="mensagem">{{ mensagem }}</p>
+                {% endif %}
+
+                <button type="submit" class="Avancar">Avançar</button>
+            </form>
+            <p class="Not">Não tem uma conta? <a href="#" id="go-register">Inscreva-se</a></p>
+        </div>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>  
+
+    {% if mensagem and not abrir_login %}
+    <p class="mensagem">{{ mensagem }}</p>
+    {% endif %}
+
+
 </body>
 
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <span class="close" id="close-register">&times;</span>
-        <img src="{% static 'images/Logo_twitter.png' %}" alt="logo_modal" id="modal-logo" class="logo_modal">
-        <h2>Criar sua conta</h2>
-
-        <input type="text" placeholder="Nome">
-        <input type="email" placeholder="Email">
-        <input type="text" placeholder="Senha" >
-
-        <button class="Avancar">Avançar</button>
-    </div>
-</div>
-
-<div class="modal-login" id="modal-login">
-    <div class="modal-content-login">
-        <span class="close" id="close-login">&times;</span>
-        <img src="{% static 'images/Logo_twitter.png' %}" alt="logo_modal" id="modal-logo" class="logo_modal">
-        <h2>Entrar no X</h2>
-
-        <input type="text" placeholder="E-mail">
-        <input type="text" placeholder="Senha">
-
-        <button class="Avancar">Avançar</button>
-        <p class="Not">Não tem uma conta? <a href="#" id="go-register">Inscreva-se</a></p>
-    </div>
-</div>
 </html>
-<script src="{% static 'script.js' %}"></script>
