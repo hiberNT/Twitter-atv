@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "twitter"
+    "twitter",
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "twitter.wsgi.application"
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
 
 
 # Database
@@ -122,3 +123,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL = '/'  # se sua página de login/cadastro é a root '/'
+LOGIN_REDIRECT_URL = '/feed'  # para onde manda após login
