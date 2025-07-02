@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-
+from .models import Post, Comentario
 
 def auth_view(request):
     mensagem = ''
@@ -42,10 +42,38 @@ def auth_view(request):
 
 @login_required
 def feed_view(request):
-    return render(request, 'feed.html')
+    posts = Post.objects.all().order_by('-criado_em')  # Busca todos os posts, do mais novo pro mais antigo
+    return render(request, 'feed.html', {'posts': posts})  # Envia os posts do models pro template
 
 def verificar_usuario(request):
     username = request.GET.get('username')
-    existe = User.objects.filter(username=username).exists()
-    return JsonResponse({'exists': existe})
+    existe = User.objects.filter(username=username).exists()#conferindo se existe username iguais
+    return JsonResponse({'exists': existe})#retornar true ou false pro exists
 
+def postar_tweet(request):
+    if request.method == 'POST':
+        conteudo = request.POST.get('conteudo')
+        if conteudo:
+            Post.objects.create(autor=request.user, conteudo=conteudo)
+    return redirect('feed')  # redireciona para a página do feed
+
+def curtir_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)#busca post com id
+    if request.user in post.curtidas.all():#se o user ja curtiu remove
+        post.curtidas.remove(request.user)
+    else:
+        post.curtidas.add(request.user)#se n curtiu add
+    return redirect('feed')
+
+def comentar_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        texto = request.POST.get('texto')
+        if texto:
+            Comentario.objects.create(
+                post=post,
+                autor=request.user,
+                texto=texto
+            )
+    return redirect('feed')  # Redireciona para o feed após comentar

@@ -1,11 +1,125 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X</title>
+    <link rel="stylesheet" href="{% static 'styles22.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
-    <h1>OLA MUNDO!</h1>
+    <div class="container" id="topo">
+        <nav class="navebar">
+            <div class="container-navebar">
+                <a href="#topo"><img src="{% static 'images/Logo_twitter.png' %}" alt="logo_modal" class="logo"></a>
+                <a><i class="fas fa-home"></i> Página inicial</a>
+                <a><i class="fas fa-search"></i> Explorar</a>
+                <a><i class="fas fa-bell"></i> Notificações</a>
+                <a><i class="fas fa-envelope"></i> Mensagens</a>
+                <a><i class="fas fa-user"></i> Perfil</a>
+                <button class="btn-post" type="submit">Postar</button>
+            </div>
+        </nav>
+
+        <div class="feed">
+            <h2 class="forYou">Para você</h2>
+
+            <!-- Formulário para postar tweet -->
+            <form action="{% url 'postar_tweet' %}" method="POST">
+                {% csrf_token %}
+                <div class="init">
+                    <span class="profile-img">{{ user.username.0|upper }}</span>
+                    <textarea class="textarea" placeholder="O que está acontecendo?" name="conteudo" rows="1"
+                        required></textarea>
+                    <button class="post-btn" type="submit">Postar</button>
+                </div>
+            </form>
+
+            <!-- Loop dos posts -->
+            {% for post in posts %}
+            <div class="post">
+                <div class="post-user">
+                    <span class="profile-img">{{ post.autor.username.0|upper }}</span>
+                    <h3 class="user">{{ post.autor.username }}</h3>
+                    <h4 class="data">{{ post.criado_em|timesince }} atrás</h4>
+                </div>
+
+                <p class="postagem">{{ post.conteudo }}</p>
+
+                <!-- Botões-->
+                <div class="post-actions">
+                    <button type="button" class="toggle-comentarios" data-post="{{ post.id }}">
+                        <i class="far fa-comment"></i> <span class="count">{{ post.comentarios.count }}</span>
+                    </button>
+
+                    <button type="button" class="retweet-btn">
+                        <i class="fas fa-retweet"></i> <span class="count">0</span>
+                    </button>
+
+                    <form action="{% url 'curtir_post' post.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="like-btn">
+                            <i class="{% if user in post.curtidas.all %}fas liked{% else %}far{% endif %} fa-heart"></i>
+                            <span class="count">{{ post.total_curtidas }}</span>
+                        </button>
+                    </form>
+                </div>
+                <!-- Comentários-->
+
+                <div class="overlay" id="overlay-{{ post.id }}">
+                    <div class="comentarios-box" id="comentarios-{{ post.id }}">
+                        <!-- Formulário de comentário -->
+                        <form action="{% url 'comentar_post' post.id %}" method="POST" class="comentario-form">
+                            {% csrf_token %}
+                            <textarea class="textarea-comentario" name="texto" placeholder="Escreva um comentário..."
+                                required></textarea>
+                            <button type="submit" class="btn-comentar">Comentar</button>
+                        </form>
+
+                        <div class="comentarios">
+                            {% for comentario in post.comentarios.all %}
+                            <div class="comentario">
+                                <div class="user-coment">
+                                    <strong>{{ comentario.autor.username }}</strong>: {{ comentario.texto }}
+                                    <span class="data">{{ comentario.criado_em|timesince }} atrás</span>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p>Seja o primeiro a comentar!</p>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <aside class="sidebar-right">
+            <input type="text" placeholder="Pesquisar" class="search-bar" />
+
+            <div class="trending">
+                <h3>O que está acontecendo</h3>
+                <ul>
+                    <li><strong>#Exemplo1</strong> <br><span>12 mil Tweets</span></li>
+                    <li><strong>#Exemplo2</strong> <br><span>8 mil Tweets</span></li>
+                    <li><strong>#Exemplo3</strong> <br><span>5 mil Tweets</span></li>
+                </ul>
+            </div>
+
+            <div class="follow-suggestions">
+                <h3>Quem seguir</h3>
+                <ul>
+                    <li><strong>@fulano</strong> <button>Seguir</button></li>
+                    <li><strong>@ciclano</strong> <button>Seguir</button></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    <script src="{% static 'script2.js' %}"></script>
 </body>
+
 </html>

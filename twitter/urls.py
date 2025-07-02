@@ -18,10 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import auth_view, feed_view, verificar_usuario
+from . import views 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', auth_view, name='auth'),
     path('feed/', feed_view, name='feed'),
     path('verificar_usuario/', verificar_usuario, name='verificar_usuario'),
+    path('postar/', views.postar_tweet, name='postar_tweet'),
+    path('curtir/<int:post_id>/', views.curtir_post, name='curtir_post'),
+    path('comentar/<int:post_id>/', views.comentar_post, name='comentar_post'),
 ]
