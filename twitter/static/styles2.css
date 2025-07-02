@@ -46,6 +46,34 @@ body {
     margin-left: -18px;
 }
 
+.user-exit {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px;
+    margin-top: 196px;
+    border-radius: 10px;
+    margin-left: -22px;
+
+    &:hover {
+        background-color: #1a1a1a;
+    }
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 14px;
+    margin-top: 38px;
+
+    a {
+        color: #717576;
+        text-decoration: none;
+        font-size: 13px;
+    }
+}
+
 .feed {
     width: 580px;
 }
@@ -176,7 +204,7 @@ i {
     background: none;
     border: none;
     cursor: pointer;
-    
+
     &:hover {
         color: #1da1f2;
     }
@@ -236,20 +264,22 @@ i {
 .comentarios {
     max-height: 200px;
     overflow-y: auto;
-    padding-right: 10px; 
+    padding-right: 10px;
     margin-left: -70px;
 }
 
 .comentarios::-webkit-scrollbar {
     width: 6px;
-  }
-  .comentarios::-webkit-scrollbar-thumb {
+}
+
+.comentarios::-webkit-scrollbar-thumb {
     background-color: #888;
     border-radius: 4px;
-  }
-  .comentarios::-webkit-scrollbar-track {
+}
+
+.comentarios::-webkit-scrollbar-track {
     background: transparent;
-  }
+}
 
 .comentario {
     margin-bottom: 8px;
