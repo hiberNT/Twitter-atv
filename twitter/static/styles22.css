@@ -27,10 +27,16 @@ body {
     margin-left: 116px;
     position: fixed;
 
-
     a {
         margin-bottom: 22px;
         margin-right: 4px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container-navebar {
+        position: static;
+        margin-left: 20px;
     }
 }
 
@@ -57,6 +63,12 @@ body {
 
     &:hover {
         background-color: #1a1a1a;
+    }
+}
+
+@media (min-width: 768px) {
+    .user-exit {
+        margin-top: 0;
     }
 }
 

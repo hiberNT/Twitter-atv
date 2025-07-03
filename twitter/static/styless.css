@@ -32,6 +32,12 @@ body {
     font-size: 78px;
 }
 
+@media (min-width: 768px) {
+    .right h1 {
+        font-size: 34px;
+    }
+}
+
 .right h2 {
     font-size: 40px;
     margin: 0px 0px 32px;
@@ -52,6 +58,7 @@ body {
     margin: 0px 0px 16px;
     max-width: 208px;
     border-radius: 25px;
+
     &:hover {
         background-color: #0793f0;
     }
@@ -66,6 +73,7 @@ body {
     margin: 0px 0px 16px;
     max-width: 208px;
     border-radius: 25px;
+
     &:hover {
         background-color: rgba(83, 100, 113, 0.779);
     }
@@ -73,6 +81,13 @@ body {
 
 .logo {
     height: 300px;
+}
+
+@media (min-width: 768px) {
+    .logo {
+        height: 232px;
+        margin-bottom: 144px;
+    }
 }
 
 .logo_modal {
@@ -92,7 +107,7 @@ body {
 }
 
 .modal-content {
-    background-color:#000;
+    background-color: #000;
     color: white;
     padding: 30px;
     border-radius: 20px;
@@ -101,7 +116,7 @@ body {
     max-width: 90%;
     position: relative;
     justify-items: center;
-  }
+}
 
 .modal-content h2 {
     font-size: 34px;
@@ -150,7 +165,7 @@ body {
 }
 
 .modal-content-login {
-    background-color:#000;
+    background-color: #000;
     color: white;
     padding: 10px;
     border-radius: 20px;
@@ -184,6 +199,6 @@ body {
 }
 
 .Not a {
-    color:#1D9BF0;
+    color: #1D9BF0;
     text-decoration: none;
 }
