@@ -1,32 +1,16 @@
-"""
-URL configuration for twitter project.
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import git
+import traceback
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
-from django.contrib import admin
-from django.urls import path
-from .views import auth_view, feed_view, verificar_usuario
-from . import views, views2
-
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('', auth_view, name='auth'),
-    path('feed/', feed_view, name='feed'),
-    path('verificar_usuario/', verificar_usuario, name='verificar_usuario'),
-    path('postar/', views.postar_tweet, name='postar_tweet'),
-    path('curtir/<int:post_id>/', views.curtir_post, name='curtir_post'),
-    path('comentar/<int:post_id>/', views.comentar_post, name='comentar_post'),
-    path('update_server/', views2.update_server, name='update_server'),
-]
+@csrf_exempt
+def update_server(request):
+    if request.method == "POST":
+        try:
+            repo = git.Repo('/home/Hibernon/Twitter-atv')
+            origin = repo.remotes.origin
+            pull_result = origin.pull()
+            return HttpResponse(f"✅ Pull feito com sucesso: {pull_result}")
+        except Exception as e:
+            return HttpResponse(f"❌ Erro ao fazer pull: {str(e)}\n\n{traceback.format_exc()}")
+    return HttpResponse("❌ Método inválido. Use POST.")
