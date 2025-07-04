@@ -28,5 +28,5 @@ urlpatterns = [
     path('postar/', views.postar_tweet, name='postar_tweet'),
     path('curtir/<int:post_id>/', views.curtir_post, name='curtir_post'),
     path('comentar/<int:post_id>/', views.comentar_post, name='comentar_post'),
-    path('update_server/', views2.update, name='update_server'),
+    path('update_server/', views2.update_server, name='update_server')
 ]
