@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import auth_view, feed_view, verificar_usuario
-from . import views 
+from . import views, views2
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('postar/', views.postar_tweet, name='postar_tweet'),
     path('curtir/<int:post_id>/', views.curtir_post, name='curtir_post'),
     path('comentar/<int:post_id>/', views.comentar_post, name='comentar_post'),
+    path("update_server/", views2.update, name="update"),
 ]
