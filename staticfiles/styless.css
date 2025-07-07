@@ -1,0 +1,204 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: black;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    color: #fff;
+}
+
+.left {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 156px;
+}
+
+.right h1 {
+    font-size: 78px;
+}
+
+@media (min-width: 768px) {
+    .right h1 {
+        font-size: 34px;
+    }
+}
+
+.right h2 {
+    font-size: 40px;
+    margin: 0px 0px 32px;
+}
+
+.if {
+    font-weight: bold;
+    font-size: 17px;
+    margin-top: 20px;
+}
+
+.register {
+    text-decoration: none;
+    text-align: center;
+    background-color: #1D9BF0;
+    color: #fff;
+    padding: 10px 48px;
+    margin: 0px 0px 16px;
+    max-width: 208px;
+    border-radius: 25px;
+
+    &:hover {
+        background-color: #0793f0;
+    }
+}
+
+.login {
+    text-decoration: none;
+    text-align: center;
+    color: #1D9BF0;
+    border: 1px solid rgb(83, 100, 113);
+    padding: 10px 48px;
+    margin: 0px 0px 16px;
+    max-width: 208px;
+    border-radius: 25px;
+
+    &:hover {
+        background-color: rgba(83, 100, 113, 0.779);
+    }
+}
+
+.logo {
+    height: 300px;
+}
+
+@media (min-width: 768px) {
+    .logo {
+        height: 232px;
+        margin-bottom: 144px;
+    }
+}
+
+.logo_modal {
+    height: 38px;
+}
+
+.modal {
+    display: none;
+    background-color: rgba(91, 112, 131, 0.4);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    justify-items: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+.modal-content {
+    background-color: #000;
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 84px;
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+    justify-items: center;
+}
+
+.modal-content h2 {
+    font-size: 34px;
+    margin-right: 156px;
+    margin-bottom: 30px;
+}
+
+.modal-content input {
+    display: block;
+    margin-top: 16px;
+    width: 350px;
+    padding: 16px;
+    background-color: #000;
+    color: inherit;
+    border: 1px solid rgb(51, 54, 57);
+}
+
+.Avancar {
+    width: 380px;
+    padding: 16px;
+    border-radius: 20px;
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-login {
+    display: none;
+    background-color: rgba(91, 112, 131, 0.4);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    justify-items: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+.modal-content-login {
+    background-color: #000;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 84px;
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+    justify-items: center;
+}
+
+.modal-content-login h2 {
+    font-size: 34px;
+    margin-right: 204px;
+    margin-bottom: 30px;
+}
+
+.modal-content-login input {
+    display: block;
+    margin-top: 16px;
+    width: 350px;
+    padding: 16px;
+    background-color: #000;
+    color: inherit;
+    border: 1px solid rgb(51, 54, 57);
+}
+
+.Not {
+    color: rgb(51, 54, 57);
+    margin-right: 148px;
+    margin-top: 50px;
+}
+
+.Not a {
+    color: #1D9BF0;
+    text-decoration: none;
+}
