@@ -130,7 +130,6 @@ STATICFILES_DIRS = [BASE_DIR / "twitter" / "static"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -138,3 +137,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = '/'  # se sua página de login/cadastro é a root '/'
 LOGIN_REDIRECT_URL = '/feed'  # para onde manda após login
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

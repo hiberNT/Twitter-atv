@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .models import Post, Comentario
+from .models import Post, Comentario, Perfil
+from .forms import PerfilForm, UserUpdateForm
 
 def auth_view(request):
     mensagem = ''
@@ -42,8 +43,44 @@ def auth_view(request):
 
 @login_required
 def feed_view(request):
-    posts = Post.objects.all().order_by('-criado_em')  # Busca todos os posts, do mais novo pro mais antigo
-    return render(request, 'feed.html', {'posts': posts})  # Envia os posts do models pro template
+    posts = Post.objects.all().order_by('-criado_em')
+    
+    perfil, _ = Perfil.objects.get_or_create(user=request.user)
+
+    user_form = UserUpdateForm(instance=request.user)
+    perfil_form = PerfilForm(instance=perfil)
+
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        perfil_form = PerfilForm(request.POST, request.FILES, instance=perfil)
+
+        if user_form.is_valid() and perfil_form.is_valid():
+            user_form.save()
+            perfil_form.save()
+            return redirect('feed')
+
+    return render(request, 'feed.html', {
+        'posts': posts,
+        'user_form': user_form,
+        'perfil_form': perfil_form
+    })
+    
+def perfil_publico(request, username):
+    usuario = get_object_or_404(User, username=username)
+    perfil = usuario.perfil
+    posts = Post.objects.filter(autor=usuario).order_by('-criado_em')
+    
+    seguindo = False
+    if request.user.is_authenticated:
+        seguindo = perfil.seguidores.filter(id=request.user.id).exists()
+
+    return render(request, 'feed.html', {
+        'posts': posts,
+        'perfil': perfil,
+        'usuario_perfil': usuario,
+        'perfil_view': True,
+        'seguindo': seguindo
+    })
 
 def verificar_usuario(request):
     username = request.GET.get('username')
@@ -76,4 +113,16 @@ def comentar_post(request, post_id):
                 autor=request.user,
                 texto=texto
             )
-    return redirect('feed')  # Redireciona para o feed após comentar
+    return redirect('feed')
+
+def seguir_usuario(request, username):
+    usuario_para_seguir = get_object_or_404(User, username=username)
+    perfil_para_seguir = usuario_para_seguir.perfil
+
+    if request.user != usuario_para_seguir:
+        if perfil_para_seguir.seguidores.filter(id=request.user.id).exists():
+            perfil_para_seguir.seguidores.remove(request.user)
+        else:
+            perfil_para_seguir.seguidores.add(request.user)
+
+    return redirect('perfil_publico', username=username)

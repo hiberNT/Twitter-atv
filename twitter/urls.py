@@ -17,8 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from .views import auth_view, feed_view, verificar_usuario
 from . import views, views2
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,5 +31,14 @@ urlpatterns = [
     path('postar/', views.postar_tweet, name='postar_tweet'),
     path('curtir/<int:post_id>/', views.curtir_post, name='curtir_post'),
     path('comentar/<int:post_id>/', views.comentar_post, name='comentar_post'),
+    path('seguir/<str:username>/', views.seguir_usuario, name='seguir_usuario'),
+    path('perfil/<str:username>/', views.perfil_publico, name='perfil_publico'),
+    path('alterar-senha/', auth_views.PasswordChangeView.as_view(
+        template_name='registration/password_change_form.html',
+        success_url='/'
+    ), name='password_change'),
     path('update_server/', views2.update_server, name='update_server'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

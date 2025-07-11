@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>X</title>
-    <link rel="stylesheet" href="{% static 'styles22.css' %}">
+    <link rel="stylesheet" href="{% static 'styles2.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -19,45 +19,132 @@
                 <a><i class="fas fa-search"></i> Explorar</a>
                 <a><i class="fas fa-bell"></i> Notificações</a>
                 <a><i class="fas fa-envelope"></i> Mensagens</a>
-                <a><i class="fas fa-user"></i> Perfil</a>
+                <a class="perfil"><i class="fas fa-user"></i> Perfil</a>
                 <button class="btn-post" type="submit">Postar</button>
                 <div class="user-exit">
+                    {% if user.perfil.imagem %}
+                    <img src="{{ user.perfil.imagem.url }}" alt="Foto de perfil" class="profile-img">
+                    {% else %}
                     <span class="profile-img">{{ user.username.0|upper }}</span>
+                    {% endif %}
+
                     <div class="user-info">
-                        <strong>{{ user.username }}</strong>
+                        <strong class="username">{{ user.username }}</strong>
                         <a href="{% url 'auth' %}" class="logout">Sair</a>
                     </div>
                 </div>
-                
+
             </div>
         </nav>
 
+        <!--edição de perfil -->
+        <div id="perfilModal" class="overlay">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Editar Perfil</h2>
+
+                <form method="POST" enctype="multipart/form-data" id="perfil-form">
+                    {% csrf_token %}
+
+                    <label for="id_username">Nome de usuário</label>
+                    {{ user_form.username }}
+
+                    <label for="id_email">Email</label>
+                    {{ user_form.email }}
+
+                    <label for="id_imagem">Foto de perfil</label>
+
+                    <!-- Imagem atual como preview -->
+                    <img id="preview-img" src="{{ perfil.imagem.url }}" alt="Imagem atual" class="img-preview">
+
+                    <!-- Campo de upload (limpo, sem o "Currently") -->
+                    <input type="file" name="imagem" accept="image/*" id="id_imagem">
+
+                    <button type="submit" class="btn-salvar">Salvar</button>
+                </form>
+
+                <a href="{% url 'password_change' %}" class="link-senha">Alterar senha</a>
+            </div>
+        </div>
+
         <div class="feed">
+            {% if perfil_view %}
+            <!-- PERFIL PÚBLICO -->
+            <div class="container-topo">
+                <div class="perfil-topo">
+                    <a href="{% url 'feed' %}" class="btn-voltar">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    {% if perfil.imagem %}
+                    <img src="{{ perfil.imagem.url }}" alt="Foto de perfil" class="foto-perfil">
+                    {% else %}
+                    <span class="foto-perfil">{{ usuario_perfil.username.0|upper }}</span>
+                    {% endif %}
+
+                    <div class="perfil-info">
+                        <h2>{{ usuario_perfil.username }}</h2>
+                        <form action="{% url 'seguir_usuario' usuario_perfil.username %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn-seguir {% if seguindo %}ativo{% endif %}" type="submit">
+                                {% if seguindo %}Seguindo{% else %}Seguir{% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- POSTS DO USUÁRIO -->
+            {% for post in posts %}
+            <div class="post">
+                <div class="post-user">
+                    {% if post.autor.perfil.imagem %}
+                    <img src="{{ post.autor.perfil.imagem.url }}" alt="Foto de perfil" class="profile-img">
+                    {% else %}
+                    <span class="profile-img">{{ post.autor.username.0|upper }}</span>
+                    {% endif %}
+                    <a class="user" href="{% url 'perfil_publico' post.autor.username %}">
+                        <h3>{{ post.autor.username }}</h3>
+                    </a>
+                    <h4 class="data">{{ post.criado_em|timesince }} atrás</h4>
+                </div>
+                <p class="postagem">{{ post.conteudo }}</p>
+            </div>
+            {% endfor %}
+
+            {% else %}
+            <!-- FEED PADRÃO -->
             <h2 class="forYou">Para você</h2>
 
-            <!-- Formulário para postar tweet -->
             <form action="{% url 'postar_tweet' %}" method="POST">
                 {% csrf_token %}
                 <div class="init">
+                    {% if user.perfil.imagem %}
+                    <img src="{{ user.perfil.imagem.url }}" alt="Foto de perfil" class="profile-img">
+                    {% else %}
                     <span class="profile-img">{{ user.username.0|upper }}</span>
+                    {% endif %}
+
                     <textarea class="textarea" placeholder="O que está acontecendo?" name="conteudo" rows="1"
                         required></textarea>
                     <button class="post-btn" type="submit">Postar</button>
                 </div>
             </form>
 
-            <!-- Loop dos posts -->
             {% for post in posts %}
             <div class="post">
                 <div class="post-user">
+                    {% if post.autor.perfil.imagem %}
+                    <img src="{{ post.autor.perfil.imagem.url }}" alt="Foto de perfil" class="profile-img">
+                    {% else %}
                     <span class="profile-img">{{ post.autor.username.0|upper }}</span>
-                    <h3 class="user">{{ post.autor.username }}</h3>
+                    {% endif %}
+                    <a class="user" href="{% url 'perfil_publico' post.autor.username %}">
+                        <h3>{{ post.autor.username }}</h3>
+                    </a>
                     <h4 class="data">{{ post.criado_em|timesince }} atrás</h4>
                 </div>
 
                 <p class="postagem">{{ post.conteudo }}</p>
 
-                <!-- Botões-->
                 <div class="post-actions">
                     <button type="button" class="toggle-comentarios" data-post="{{ post.id }}">
                         <i class="far fa-comment"></i> <span class="count">{{ post.comentarios.count }}</span>
@@ -75,11 +162,9 @@
                         </button>
                     </form>
                 </div>
-                <!-- Comentários-->
 
                 <div class="overlay" id="overlay-{{ post.id }}">
                     <div class="comentarios-box" id="comentarios-{{ post.id }}">
-                        <!-- Formulário de comentário -->
                         <form action="{% url 'comentar_post' post.id %}" method="POST" class="comentario-form">
                             {% csrf_token %}
                             <textarea class="textarea-comentario" name="texto" placeholder="Escreva um comentário..."
@@ -99,11 +184,11 @@
                             <p>Seja o primeiro a comentar!</p>
                             {% endfor %}
                         </div>
-
                     </div>
                 </div>
             </div>
             {% endfor %}
+            {% endif %}
         </div>
 
         <aside class="sidebar-right">
@@ -127,7 +212,7 @@
             </div>
         </aside>
     </div>
-    <script src="{% static 'script2.js' %}"></script>
+    <script src="{% static 'script22.js' %}"></script>
 </body>
 
 </html>
