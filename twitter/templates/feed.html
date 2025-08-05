@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>X</title>
-    <link rel="stylesheet" href="{% static 'styles2.css' %}">
+    <link rel="stylesheet" href="{% static 'styles22.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -63,7 +63,36 @@
                     <button type="submit" class="btn-salvar">Salvar</button>
                 </form>
 
-                <a href="{% url 'password_change' %}" class="link-senha">Alterar senha</a>
+                <a href="#" class="link-senha" onclick="abrirSenhaModal()">Alterar senha</a>
+            </div>
+        </div>
+
+        <!-- Modal de alteração de senha -->
+        <div id="senhaModal" class="overlay" style="display: none;">
+            <div class="modal-content_senha">               
+
+                <h2>Altere sua senha</h2>
+
+                <form method="post" action="{% url 'alterar_senha' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <input type="password" name="old_password" placeholder="Senha atual" class="form-control"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="new_password1" placeholder="Nova senha" class="form-control"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="new_password2" placeholder="Confirmar senha" class="form-control"
+                            required>
+                    </div>
+
+                    <button type="submit" class="btn-salvar_senha">Salvar</button>
+                </form>
             </div>
         </div>
 
@@ -212,7 +241,7 @@
             </div>
         </aside>
     </div>
-    <script src="{% static 'script22.js' %}"></script>
+    <script src="{% static 'script2.js' %}"></script>
 </body>
 
 </html>

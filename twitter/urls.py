@@ -33,10 +33,7 @@ urlpatterns = [
     path('comentar/<int:post_id>/', views.comentar_post, name='comentar_post'),
     path('seguir/<str:username>/', views.seguir_usuario, name='seguir_usuario'),
     path('perfil/<str:username>/', views.perfil_publico, name='perfil_publico'),
-    path('alterar-senha/', auth_views.PasswordChangeView.as_view(
-        template_name='registration/password_change_form.html',
-        success_url='/'
-    ), name='password_change'),
+    path('alterar-senha/', views.alterar_senha, name='alterar_senha'),
     path('update_server/', views2.update_server, name='update_server'),
 ]
 

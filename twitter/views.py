@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Post, Comentario, Perfil
 from .forms import PerfilForm, UserUpdateForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 
 def auth_view(request):
     mensagem = ''
@@ -126,3 +128,22 @@ def seguir_usuario(request, username):
             perfil_para_seguir.seguidores.add(request.user)
 
     return redirect('perfil_publico', username=username)
+
+def alterar_senha(request):
+    if request.method == 'POST':
+        senha_atual = request.POST.get('old_password')
+        nova_senha1 = request.POST.get('new_password1')
+        nova_senha2 = request.POST.get('new_password2')
+
+        if not request.user.check_password(senha_atual):
+            messages.error(request, "Senha atual incorreta.")
+        elif nova_senha1 != nova_senha2:
+            messages.error(request, "As novas senhas não coincidem.")
+        else:
+            request.user.set_password(nova_senha1)
+            request.user.save()
+            update_session_auth_hash(request, request.user)
+            messages.success(request, "Senha alterada com sucesso.")
+            return redirect('feed')
+
+    return redirect('feed')

@@ -170,6 +170,45 @@ body {
     text-decoration: underline;
 }
 
+.modal-content_senha {
+    background-color: #000;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    color: white;
+    position: relative;
+    justify-self: anchor-center;
+  }
+    
+  .modal-content_senha h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+    position: relative;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    background: #0f1419;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: white;
+  }
+
+  .btn-salvar_senha {
+    background-color: #1d9bf0;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+  }
 
 .feed {
     width: 580px;

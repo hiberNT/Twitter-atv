@@ -70,5 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
       previewImg.src = URL.createObjectURL(file);
     }
   });
-
 });
+
+function abrirSenhaModal() {
+  const modal = document.getElementById('senhaModal');
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
+
+// Fechar modal ao clicar fora do conteúdo
+window.onclick = function (event) {
+  var modal = document.getElementById("senhaModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
